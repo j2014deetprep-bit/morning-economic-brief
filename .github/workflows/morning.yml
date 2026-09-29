@@ -1,0 +1,23 @@
+name: Morning Economic Brief
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 8 * * *"
+      timezone: "Asia/Seoul"
+
+jobs:
+  send-brief:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run morning brief
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python brief.py
